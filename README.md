@@ -10,7 +10,7 @@ Then run the following:
 ### 1) Clone the repository
 
 ```bash
-git clone https://github.com/demox-labs/leo-wallet-demo && cd leo-wallet-demo
+git clone https://github.com/demox-labs/art-factory && cd art-factory
 ```
 
 ### 2) Install dependencies
