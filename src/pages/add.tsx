@@ -49,7 +49,7 @@ const Add: NextPageWithLayout = () => {
 
     const urlInputs = padArray(splitStringToBigInts(url), 2);
     const formattedUrlInput = `{ data1: ${urlInputs[0]}u128, data2: ${urlInputs[1]}u128 }`;
-    const inputs = [formattedUrlInput, `${editions}scalar`, `1u8`];
+    const inputs = [formattedUrlInput, `${editions}scalar`];
 
     const aleoTransaction = Transaction.createTransaction(
       publicKey,

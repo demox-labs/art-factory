@@ -19,7 +19,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@demox-labs/aleo-sdk": "^0.3.7",
+    "@demox-labs/aleo-sdk": "^0.3.18",
     "@demox-labs/aleo-wallet-adapter-base": "^0.0.14",
     "@demox-labs/aleo-wallet-adapter-leo": "^0.0.13",
     "@demox-labs/aleo-wallet-adapter-react": "^0.0.14",

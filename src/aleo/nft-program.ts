@@ -1,6 +1,6 @@
-export const NFTProgramId = 'leo_nft_test_1.aleo';
+export const NFTProgramId = 'privacy_pride_nft.aleo';
 
-export const NFTProgram = `program leo_nft_test_1.aleo;
+export const NFTProgram = `program privacy_pride_nft.aleo;
 
 struct TokenId:
     data1 as u128;
@@ -58,7 +58,7 @@ finalize initialize_collection:
     input r0 as u128.public;
     input r1 as u128.public;
     input r2 as BaseURI.public;
-    get.or_init settings[0u8] 0u128 into r3;
+    get.or_use settings[0u8] 0u128 into r3;
     assert.eq r3 0u128;
     set 1u128 into settings[0u8];
     set r0 into settings[1u8];
@@ -74,22 +74,20 @@ finalize initialize_collection:
 function add_nft:
     input r0 as TokenId.public;
     input r1 as scalar.public;
-    input r2 as u8.public;
     assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
-    hash.bhp256 r0 into r3;    commit.bhp256 r3 r1 into r4;
-    finalize r4 r2;
+    hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;
+    finalize r3;
 
 finalize add_nft:
     input r0 as field.public;
-    input r1 as u8.public;
-    get settings[8u8] into r2;
-    assert.eq r2 0u128;
-    get.or_init nft_totals[r0] 255u8 into r3;
-    assert.eq r3 255u8;
-    set r1 into nft_totals[r0];
-    get settings[1u8] into r4;
-    sub r4 1u128 into r5;
-    set r5 into settings[1u8];
+    get settings[8u8] into r1;
+    assert.eq r1 0u128;
+    get.or_use nft_totals[r0] 255u8 into r2;
+    assert.eq r2 255u8;
+    set 1u8 into nft_totals[r0];
+    get settings[1u8] into r3;
+    sub r3 1u128 into r4;
+    set r4 into settings[1u8];
 
 
 function add_minter:
@@ -163,7 +161,7 @@ finalize freeze:
 function mint:
     input r0 as TokenId.public;
     input r1 as scalar.public;
-    hash.bhp256 r0 into r2;    commit.bhp256 r2 r1 into r3;    cast self.caller r0 r1 into r4 as NFT.record;
+    hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;    cast self.caller r0 r1 into r4 as NFT.record;
     output r4 as NFT.record;
 
     finalize self.caller r3;
@@ -192,20 +190,21 @@ function transfer_public:
     input r0 as address.private;
     input r1 as TokenId.private;
     input r2 as scalar.private;
-    hash.bhp256 r1 into r3;    commit.bhp256 r3 r2 into r4;
-    finalize r0 r4;
+    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;
+    finalize r0 r4 self.caller;
 
 finalize transfer_public:
     input r0 as address.public;
     input r1 as field.public;
-    get nft_owners[r1] into r2;
-    assert.eq self.caller r2;
+    input r2 as address.public;
+    get nft_owners[r1] into r3;
+    assert.eq r2 r3;
     set r0 into nft_owners[r1];
 
 
 function convert_private_to_public:
     input r0 as NFT.record;
-    hash.bhp256 r0.data into r1;    commit.bhp256 r1 r0.edition into r2;
+    hash.bhp256 r0.data into r1 as field;    commit.bhp256 r1 r0.edition into r2 as field;
     finalize r0.owner r2;
 
 finalize convert_private_to_public:
@@ -218,7 +217,8 @@ function convert_public_to_private:
     input r0 as address.private;
     input r1 as TokenId.private;
     input r2 as scalar.private;
-    hash.bhp256 r1 into r3;    commit.bhp256 r3 r2 into r4;    cast r0 r1 r2 into r5 as NFT.record;
+    assert.eq r0 self.caller;
+    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;    cast r0 r1 r2 into r5 as NFT.record;
     output r5 as NFT.record;
 
     finalize r0 r4;
@@ -227,7 +227,7 @@ finalize convert_public_to_private:
     input r0 as address.public;
     input r1 as field.public;
     get nft_owners[r1] into r2;
-    assert.eq self.caller r2;
+    assert.eq r0 r2;
     set aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc into nft_owners[r1];
 
 

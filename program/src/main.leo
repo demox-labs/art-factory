@@ -68,24 +68,20 @@ program leo_nft.aleo {
     
     // Load the data into the mapping
     // Enables someone to mint an NFT with provided image data
-    transition add_nft(public tokenId: TokenId, public edition: scalar, public amount: u8) {
+    transition add_nft(public tokenId: TokenId, public edition: scalar) {
         assert_eq(self.caller, aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy);
-        let tokenHash: field = BHP256::hash(tokenId);
-        let tokenEditionHash: field = BHP256::commit(tokenHash, edition);
-        return then finalize(tokenEditionHash, amount);
+        let tokenHash: field = BHP256::hash_to_field(tokenId);
+        let tokenEditionHash: field = BHP256::commit_to_field(tokenHash, edition);
+        return then finalize(tokenEditionHash);
     }
 
-    finalize add_nft(
-        public tokenEditionHash: field,
-        public amount: u8
-        )
-    {
+    finalize add_nft(public tokenEditionHash: field) {
         let frozen: u128 = settings.get(8u8);
         assert_eq(frozen, 0u128);
 
         let existing_editions: u8 = nft_totals.get_or_use(tokenEditionHash, 255u8);
         assert_eq(existing_editions, 255u8);
-        nft_totals.set(tokenEditionHash, amount);
+        nft_totals.set(tokenEditionHash, 1u8);
 
         // Reduce the amount of total nfts that can be minted
         let remaining: u128 = settings.get(1u8);
@@ -160,8 +156,8 @@ program leo_nft.aleo {
     }
 
     transition mint(public tokenId: TokenId, public edition: scalar) -> NFT {
-        let tokenHash: field = BHP256::hash(tokenId);
-        let tokenEditionHash: field = BHP256::commit(tokenHash, edition);
+        let tokenHash: field = BHP256::hash_to_field(tokenId);
+        let tokenEditionHash: field = BHP256::commit_to_field(tokenHash, edition);
         return NFT {
             owner: self.caller,
             data: tokenId,
@@ -201,17 +197,19 @@ program leo_nft.aleo {
         private edition: scalar
     )
     {
-        let tokenHash: field = BHP256::hash(data);
-        let tokenEditionHash: field = BHP256::commit(tokenHash, edition);
-        return then finalize(receiver, tokenEditionHash);
+        let tokenHash: field = BHP256::hash_to_field(data);
+        let tokenEditionHash: field = BHP256::commit_to_field(tokenHash, edition);
+        let caller: address = self.caller;
+        return then finalize(receiver, tokenEditionHash, caller);
     }
 
     finalize transfer_public(
         public receiver: address,
-        public tokenEditionHash: field
+        public tokenEditionHash: field,
+        public caller: address
     )
     {
-        assert_eq(self.caller, nft_owners.get(tokenEditionHash));
+        assert_eq(caller, nft_owners.get(tokenEditionHash));
         nft_owners.set(tokenEditionHash, receiver);
     }
 
@@ -219,8 +217,8 @@ program leo_nft.aleo {
         nft: NFT
     )
     {
-        let tokenHash: field = BHP256::hash(nft.data);
-        let tokenEditionHash: field = BHP256::commit(tokenHash, nft.edition);
+        let tokenHash: field = BHP256::hash_to_field(nft.data);
+        let tokenEditionHash: field = BHP256::commit_to_field(tokenHash, nft.edition);
         return then finalize(nft.owner, tokenEditionHash);
     }
 
@@ -238,8 +236,9 @@ program leo_nft.aleo {
         private edition: scalar
     ) -> NFT
     {
-        let tokenHash: field = BHP256::hash(data);
-        let tokenEditionHash: field = BHP256::commit(tokenHash, edition);
+        assert_eq(owner, self.caller);
+        let tokenHash: field = BHP256::hash_to_field(data);
+        let tokenEditionHash: field = BHP256::commit_to_field(tokenHash, edition);
         return NFT {
             owner,
             data,
@@ -252,7 +251,7 @@ program leo_nft.aleo {
         public tokenEditionHash: field
     )
     {
-        assert_eq(self.caller, nft_owners.get(tokenEditionHash));
+        assert_eq(owner, nft_owners.get(tokenEditionHash));
         // mapping::remove is not implemented yet, so instead we set the owner to be a dummy address that cannot publicly transfer or convert to private
         nft_owners.set(tokenEditionHash, aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc);
     }

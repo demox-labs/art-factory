@@ -18,8 +18,7 @@ fs.readFile(mainAleoPath, 'utf8')
     // wrap the contents in backticks and export as NFTProgram
     const program = mainAleoContents
       .replace(/leo_nft\.aleo/g, PROGRAM_NAME!)
-      .replace(/aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy/g, ADDRESS!)
-      .replace(/or_use/g, 'or_init'); // this line in temporary until Aleo fixes the bug
+      .replace(/aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy/g, ADDRESS!);
   
     const outputContents = `export const NFTProgramId = '${PROGRAM_NAME}';\n\nexport const NFTProgram = \`${program}\`;\n`;
 
