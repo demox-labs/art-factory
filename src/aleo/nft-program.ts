@@ -1,6 +1,6 @@
-export const NFTProgramId = 'privacy_pride_nft.aleo';
+export const NFTProgramId = 'privacy_pride_nft_v1.aleo';
 
-export const NFTProgram = `program privacy_pride_nft.aleo;
+export const NFTProgram = `program privacy_pride_nft_v1.aleo;
 
 struct TokenId:
     data1 as u128;
@@ -69,6 +69,7 @@ finalize initialize_collection:
     set r2.data2 into settings[6u8];
     set r2.data3 into settings[7u8];
     set 0u128 into settings[8u8];
+    set 0u128 into settings[9u8];
 
 
 function add_nft:
@@ -80,7 +81,7 @@ function add_nft:
 
 finalize add_nft:
     input r0 as field.public;
-    get settings[8u8] into r1;
+    get settings[9u8] into r1;
     assert.eq r1 0u128;
     get.or_use nft_totals[r0] 255u8 into r2;
     assert.eq r2 255u8;
@@ -100,7 +101,7 @@ function add_minter:
 finalize add_minter:
     input r0 as address.public;
     input r1 as u8.public;
-    get settings[8u8] into r2;
+    get settings[9u8] into r2;
     assert.eq r2 0u128;
     set r1 into whitelist[r0];
 
@@ -113,9 +114,22 @@ function set_mint_status:
 
 finalize set_mint_status:
     input r0 as u128.public;
-    get settings[8u8] into r1;
+    get settings[9u8] into r1;
     assert.eq r1 0u128;
     set r0 into settings[2u8];
+
+
+function set_mint_block:
+    input r0 as u128.public;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+
+    finalize r0;
+
+finalize set_mint_block:
+    input r0 as u128.public;
+    get settings[9u8] into r1;
+    assert.eq r1 0u128;
+    set r0 into settings[8u8];
 
 
 function update_symbol:
@@ -126,7 +140,7 @@ function update_symbol:
 
 finalize update_symbol:
     input r0 as u128.public;
-    get settings[8u8] into r1;
+    get settings[9u8] into r1;
     assert.eq r1 0u128;
     set r0 into settings[3u8];
 
@@ -139,7 +153,7 @@ function update_base_uri:
 
 finalize update_base_uri:
     input r0 as BaseURI.public;
-    get settings[8u8] into r1;
+    get settings[9u8] into r1;
     assert.eq r1 0u128;
     set r0.data0 into settings[4u8];
     set r0.data1 into settings[5u8];
@@ -153,9 +167,9 @@ function freeze:
     finalize;
 
 finalize freeze:
-    get settings[8u8] into r0;
+    get settings[9u8] into r0;
     assert.eq r0 0u128;
-    set 1u128 into settings[8u8];
+    set 1u128 into settings[9u8];
 
 
 function mint:
@@ -171,12 +185,16 @@ finalize mint:
     input r1 as field.public;
     get settings[2u8] into r2;
     assert.eq r2 1u128;
-    get whitelist[r0] into r3;
-    sub r3 1u8 into r4;
-    set r4 into whitelist[r0];
-    get nft_totals[r1] into r5;
-    sub r5 1u8 into r6;
-    set r6 into nft_totals[r1];
+    get settings[8u8] into r3;
+    cast r3 into r4 as u32;
+    lte r4 block.height into r5;
+    assert.eq r5 true;
+    get whitelist[r0] into r6;
+    sub r6 1u8 into r7;
+    set r7 into whitelist[r0];
+    get nft_totals[r1] into r8;
+    sub r8 1u8 into r9;
+    set r9 into nft_totals[r1];
 
 
 function transfer_private:

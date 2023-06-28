@@ -63,7 +63,8 @@ program leo_nft.aleo {
         settings.set(5u8, base_uri.data1);
         settings.set(6u8, base_uri.data2);
         settings.set(7u8, base_uri.data3);
-        settings.set(8u8, 0u128); // If collection is frozen
+        settings.set(8u8, 0u128); // Block height for mint to go live (given mint is live setting)
+        settings.set(9u8, 0u128); // If collection is frozen
     }
     
     // Load the data into the mapping
@@ -76,7 +77,7 @@ program leo_nft.aleo {
     }
 
     finalize add_nft(public tokenEditionHash: field) {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
         let existing_editions: u8 = nft_totals.get_or_use(tokenEditionHash, 255u8);
@@ -98,7 +99,7 @@ program leo_nft.aleo {
         public amount: u8
         )
     {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
         whitelist.set(minter, amount);
@@ -110,10 +111,22 @@ program leo_nft.aleo {
     }
 
     finalize set_mint_status(public status: u128) {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
         settings.set(2u8, status);
+    }
+
+    transition set_mint_block(public mint_block: u128) {
+        assert_eq(self.caller, aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy);
+        return then finalize(mint_block);
+    }
+
+    finalize set_mint_block(public mint_block: u128) {
+        let frozen: u128 = settings.get(9u8);
+        assert_eq(frozen, 0u128);
+
+        settings.set(8u8, mint_block);
     }
 
     transition update_symbol(public symbol: u128) {
@@ -122,7 +135,7 @@ program leo_nft.aleo {
     }
 
     finalize update_symbol(public symbol: u128) {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
         settings.set(3u8, symbol);
@@ -134,7 +147,7 @@ program leo_nft.aleo {
     }
 
     finalize update_base_uri(public base_uri: BaseURI) {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
         settings.set(4u8, base_uri.data0); // Base URI for NFT
@@ -149,10 +162,10 @@ program leo_nft.aleo {
     }
 
     finalize freeze() {
-        let frozen: u128 = settings.get(8u8);
+        let frozen: u128 = settings.get(9u8);
         assert_eq(frozen, 0u128);
 
-        settings.set(8u8, 1u128);
+        settings.set(9u8, 1u128);
     }
 
     transition mint(public tokenId: TokenId, public edition: scalar) -> NFT {
@@ -169,6 +182,12 @@ program leo_nft.aleo {
         // Ensure mint is live
         let is_live: u128 = settings.get(2u8);
         assert_eq(is_live, 1u128);
+
+        // Ensure mint block height is less than current block height
+        let mint_block: u128 = settings.get(8u8);
+        let mint_height: u32 = mint_block as u32;
+        let passed_height_check: bool = mint_height <= block.height;
+        assert_eq(passed_height_check, true);
 
         // Ensure owner can mint and decrease remaining mints (overflow protection)
         let remaining: u8 = whitelist.get(owner);

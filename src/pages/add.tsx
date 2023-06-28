@@ -23,7 +23,7 @@ const Add: NextPageWithLayout = () => {
 
   let [url, setUrl] = useState('');
   let [editions, setEditions] = useState(0);
-  let [fee, setFee] = useState<number>(0.05);
+  let [fee, setFee] = useState<number>(10.60);
   let [transactionId, setTransactionId] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
 

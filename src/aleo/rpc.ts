@@ -5,6 +5,12 @@ import assert from 'assert';
 
 export const TESTNET3_API_URL = process.env.RPC_URL!;
 
+export async function getHeight(apiUrl: string): Promise<number> {
+  const client = getClient(apiUrl);
+  const height = await client.request('getHeight', {});
+  return height;
+}
+
 export async function getProgram(programId: string, apiUrl: string): Promise<string> {
   const client = getClient(apiUrl);
   const program = await client.request('program', {
@@ -89,6 +95,17 @@ export async function getMintStatus(apiUrl: string): Promise<{ active: boolean }
   }
 
   return { active: false };
+}
+
+export async function getMintBlock(apiUrl: string): Promise<{ block: number }> {
+  const transactions = await getAleoTransactionsForProgram(NFTProgramId, 'set_mint_block', apiUrl);
+  if (transactions.length === 0) {
+    return { block: 0 };
+  }
+
+  const transaction = transactions[transactions.length - 1];
+  const block = parseInt(transaction.execution.transitions[0].inputs[0].value.slice(0, -4));
+  return { block };
 }
 
 export async function getNFTs(apiUrl: string): Promise<any> {

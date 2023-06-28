@@ -23,7 +23,7 @@ const Whitelist: NextPageWithLayout = () => {
 
   let [address, setAddress] = useState('');
   let [total, setTotal] = useState(1);
-  let [fee, setFee] = useState<number>(0.05);
+  let [fee, setFee] = useState<number>(4.05);
   let [transactionId, setTransactionId] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
 

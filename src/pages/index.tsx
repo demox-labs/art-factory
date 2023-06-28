@@ -5,12 +5,14 @@ import Layout from '@/layouts/_layout';
 import Button from '@/components/ui/button';
 import { ImageSlider } from '@/components/ui/image-slider';
 import useSWR from 'swr';
-import { TESTNET3_API_URL, getMintStatus, getUnmintedNFTs, getWhitelist } from '@/aleo/rpc';
+import { TESTNET3_API_URL, getHeight, getMintBlock, getMintStatus, getUnmintedNFTs, getWhitelist } from '@/aleo/rpc';
 import { useWallet } from '@demox-labs/aleo-wallet-adapter-react';
 import { LeoWalletAdapter } from '@demox-labs/aleo-wallet-adapter-leo';
 import { Transaction, WalletAdapterNetwork, WalletNotConnectedError } from '@demox-labs/aleo-wallet-adapter-base';
 import { NFTProgramId } from '@/aleo/nft-program';
 import { getRandomElement } from '@/lib/util';
+import MintCountdown from '@/components/mint/countdown';
+import { time } from 'console';
 
 type SectionProps = {
   title: string;
@@ -60,6 +62,8 @@ const MintPage: NextPageWithLayout = () => {
   const { data, error, isLoading } = useSWR('getMintStatus', () => getMintStatus(TESTNET3_API_URL));
   const { data: unmintedNFTs, error: nftError, isLoading: nftIsLoading} = useSWR('unmintedNfts', () => getUnmintedNFTs(TESTNET3_API_URL));
   const { data: whiteList, error: whitelistError, isLoading: whitelistIsLoading } = useSWR('whitelist', () => getWhitelist(TESTNET3_API_URL));
+  const { data: height, error: heightError, isLoading: heightIsLoading } = useSWR('height', () => getHeight(TESTNET3_API_URL));
+  const { data: mintBlock, error: mintBlockError, isLoading: mintBlockIsLoading } = useSWR('getMintBlock', () => getMintBlock(TESTNET3_API_URL));
 
   let [transactionId, setTransactionId] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
@@ -112,6 +116,11 @@ const MintPage: NextPageWithLayout = () => {
     ).transactionStatus(txId);
     setStatus(status);
   };
+
+  let timeToMint = 0;
+  if (height && mintBlock) {
+    timeToMint = (mintBlock.block - height) * 15_000; // 15 seconds per block
+  }
   
   return (
     <>
@@ -119,10 +128,15 @@ const MintPage: NextPageWithLayout = () => {
         title="Leo Wallet | Mint NFTs"
         description="Mint an NFT using the Leo Wallet"
       />
-      <div className="mx-auto max-w-md px-4 mt-14 pb-14 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8 xl:px-10 2xl:px-0">
+      <div className="mx-auto max-w-md px-4 mt-12 pb-14 sm:px-6 sm:pb-20 sm:pt-12 lg:px-8 xl:px-10 2xl:px-0">
         <h2 className="mb-14 text-lg font-medium uppercase text-center tracking-wider text-gray-900 dark:text-white sm:mb-10 sm:text-2xl">
           JOIN THE PRIDE
         </h2>
+        {timeToMint > 0 && (
+          <div className='flex justify-center mb-6'>
+            <MintCountdown date={Date.now() + timeToMint} />
+          </div>
+        )}
         <ImageSlider images={DEFAULT_IMAGES} interval={5000} />
         {data !== undefined && (
           <div className='flex justify-center my-8'>
