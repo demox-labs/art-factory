@@ -936,35 +936,35 @@
   resolved "https://registry.yarnpkg.com/@demox-labs/aleo-sdk/-/aleo-sdk-0.3.18.tgz#0332fb4cbb8fe7fe03f299c844f117b29ad0a016"
   integrity sha512-m8uxWPVlfvmswJqpX4qWaGVBgb0+bAonTx4Cb8JD561/nzMseNI/kR0qRrq7OSpedHSeEB6mOwoS2iSfU9xplw==
 
-"@demox-labs/aleo-wallet-adapter-base@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-base/-/aleo-wallet-adapter-base-0.0.14.tgz#ef9f5ac58673173e74e0006318ee1386e0ea7560"
-  integrity sha512-QXhennfyxCod3DAF617TNrovU+907psIz/zlFaGhyjJxSMjY/OaJOSOcU/+5dkCUIN3E9vrSyjLNGVCbdr1ncA==
+"@demox-labs/aleo-wallet-adapter-base@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-base/-/aleo-wallet-adapter-base-0.0.15.tgz#a4cdaed13b44a52b9174d34f5dee8a83dc64ba5b"
+  integrity sha512-GlB6HIxbNoBPmepVWHar58L9HPkB8EuVij2Ky7dfkJAqC1HuxBRLm3f5A2kxBUtWnvG9eH/AkTZLTKXkHHpLCQ==
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@demox-labs/aleo-wallet-adapter-leo@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.13.tgz#c90fa34f5629c1be9fc0802fecb33dd5f8a5730c"
-  integrity sha512-qhQn9xOWeutjonAuZNo7dVJZkK1i2nPK8smEMUg2ApHv76BfTRNQ4VJoO7Q2s/pVDjE2y90kPdFATN7lhWimCQ==
+"@demox-labs/aleo-wallet-adapter-leo@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.14.tgz#0f69ee33ab4d3d08eae8294be7aea000ae9d08a0"
+  integrity sha512-j9yxH/fE8x1lm9CwudAAaXd81Ym7CKbb+4oDCv0O04TRuC8x2E+Zb4zz1VAosVwjwnmlEPibYgfzbT6IPK7ttA==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.14"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
     nanoid "^4.0.0"
 
-"@demox-labs/aleo-wallet-adapter-react@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-react/-/aleo-wallet-adapter-react-0.0.14.tgz#ba63399d2803aac6539a03eceebc54251f063b14"
-  integrity sha512-+Pye4pMudTjkInAbYZiFSowCNSouJfLt8LiTsctD0boMsBuDx5ZivmnM+NwyMN1nBTUlNyn9ZsSuMKcZKhc9rw==
+"@demox-labs/aleo-wallet-adapter-react@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-react/-/aleo-wallet-adapter-react-0.0.15.tgz#4596079045b2bbc76fb7e6d0e1a43b66014aa941"
+  integrity sha512-F0tnbHfeUyYqmQh5laLHCY7pOHtYJrVTk6EWIyw2O44YsOMCEHWBrwMW3ajC6LoBRTmTTv/gLik8/v401QeLXg==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.14"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
 
-"@demox-labs/aleo-wallet-adapter-reactui@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-reactui/-/aleo-wallet-adapter-reactui-0.0.26.tgz#f52b20fa8de76dac2bb5fc31f4f317871f6a8080"
-  integrity sha512-QAka88bgRLYh8F2dUdhloZaLAwNqffWfu6sROXza2B29pPyZmspjgV+wxfXHx/St98f3lOimusG3bnv9XVGOfw==
+"@demox-labs/aleo-wallet-adapter-reactui@^0.0.27":
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-reactui/-/aleo-wallet-adapter-reactui-0.0.27.tgz#5d881a0bb4df43cf4780c8b841cdbb55ca13d134"
+  integrity sha512-8YjdIyLVctt6x1BtFzy3Tz3HYQHw+kyu/7KtFobCLX9Tm9mcmFnyxy6zZX3DwXmx5ETh7TomtMNHsMmr14RHUQ==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.14"
-    "@demox-labs/aleo-wallet-adapter-react" "^0.0.14"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
+    "@demox-labs/aleo-wallet-adapter-react" "^0.0.15"
 
 "@emotion/is-prop-valid@^0.7.3":
   version "0.7.3"
@@ -1959,6 +1959,13 @@
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/@types/overlayscrollbars/-/overlayscrollbars-1.12.1.tgz#fb637071b545834fb12aea94ee309a2ff4cdc0a8"
   integrity sha512-V25YHbSoKQN35UasHf0EKD9U2vcmexRSp78qa8UglxFH8H3D+adEa9zGZwrqpH4TdvqeMrgMqVqsLB4woAryrQ==
+
+"@types/papaparse@^5.3.7":
+  version "5.3.7"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.3.7.tgz#8d3bf9e62ac2897df596f49d9ca59a15451aa247"
+  integrity sha512-f2HKmlnPdCvS0WI33WtCs5GD7X1cxzzS/aduaxSu3I7TbhWlENjSPs6z5TaB9K0J+BH1jbmqTaM+ja5puis4wg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/prop-types@*":
   version "15.7.5"
@@ -5136,6 +5143,11 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
+
+papaparse@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-5.4.1.tgz#f45c0f871853578bd3a30f92d96fdcfb6ebea127"
+  integrity sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==
 
 parent-module@^1.0.0:
   version "1.0.1"

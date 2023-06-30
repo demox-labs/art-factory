@@ -60,8 +60,18 @@ export async function getWhitelist(apiUrl: string): Promise<any> {
       address: tx.execution.transitions[0].inputs[0].value,
       amount: parseInt(tx.execution.transitions[0].inputs[1].value.slice(0, -2))
     }
-  });
-  return whitelist;
+  }).reverse();
+
+  // Filter out duplicates
+  const uniqueMap = new Map<string, any>();
+  for (const item of whitelist) {
+    if (!uniqueMap.has(item.address)) {
+      uniqueMap.set(item.address, item);
+    }
+  }
+  const uniqueWhitelist = Array.from(uniqueMap.values());
+
+  return uniqueWhitelist;
 }
 
 export async function getInitializedCollection(apiUrl: string): Promise<any> {

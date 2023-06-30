@@ -24,7 +24,7 @@ const Initialize: NextPageWithLayout = () => {
   let [total, setTotal] = useState(1000);
   let [symbol, setSymbol] = useState('');
   let [url, setUrl] = useState('');
-  let [fee, setFee] = useState<number>(0.05);
+  let [fee, setFee] = useState<string>('11.65');
   let [transactionId, setTransactionId] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
 
@@ -59,7 +59,7 @@ const Initialize: NextPageWithLayout = () => {
       NFTProgramId,
       'initialize_collection',
       inputs,
-      Math.floor(fee! * 1_000_000),
+      Math.floor(parseFloat(fee)! * 1_000_000),
     );
 
     const txId =
@@ -130,9 +130,9 @@ const Initialize: NextPageWithLayout = () => {
               <input
                 className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
                 placeholder="Fee (in microcredits)"
-                onChange={(event) =>
-                  setFee(parseFloat(event.currentTarget.value))
-                }
+                onChange={(event) => {
+                  if (/^\d*(\.\d*)?$/.test(event.currentTarget.value)) { setFee(event.currentTarget.value) }
+                }}
                 value={fee}
               />
             </label>

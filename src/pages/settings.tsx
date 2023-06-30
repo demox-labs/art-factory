@@ -2,8 +2,8 @@ import type { NextPageWithLayout } from '@/types';
 import { NextSeo } from 'next-seo';
 import DashboardLayout from '@/layouts/dashboard/_dashboard';
 import Base from '@/components/ui/base';
-import MintStatus from '@/components/ui/settings/mint-status';
-import MintBlock from '@/components/ui/settings/mint-block';
+import MintStatus from '@/components/ui/forms/mint-status';
+import MintBlock from '@/components/ui/forms/mint-block';
 
 
 const Settings: NextPageWithLayout = () => {
@@ -13,10 +13,10 @@ const Settings: NextPageWithLayout = () => {
         title="Settings NFT Collection"
         description="Settings with the Leo Wallet"
       />
-      <Base key="form">
+      <Base key="status-form">
         <MintStatus />
       </Base>
-      <Base key="form">
+      <Base key="block-form">
         <MintBlock />
       </Base>
     </>
