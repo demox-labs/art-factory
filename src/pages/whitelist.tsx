@@ -15,6 +15,7 @@ import { NFTProgramId } from '@/aleo/nft-program';
 import {safeParseInt } from '@/lib/util';
 import useSWR from 'swr';
 import { TESTNET3_API_URL, getWhitelist } from '@/aleo/rpc';
+import BulkWhitelist from '@/components/ui/forms/bulk-whitelist';
 
 
 const Whitelist: NextPageWithLayout = () => {
@@ -79,57 +80,65 @@ const Whitelist: NextPageWithLayout = () => {
         description="Whitelist with the Leo Wallet"
       />
       <Base key="form">
-        <form
-          noValidate
-          role="search"
-          onSubmit={handleSubmit}
-          className="relative flex w-full flex-col rounded-full md:w-auto"
-        >
-          <label className="flex w-full items-center justify-between py-4">
-            Address:
-            <input
-              className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
-              placeholder="aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey"
-              onChange={(event) => setAddress(event.currentTarget.value)}
-              value={address}
-            />
-          </label>
-
-          <label className="flex w-full items-center justify-between py-4">
-            Maximum Number of Items:
-            <input
-              className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
-              onChange={(event) => setTotal(safeParseInt(event.currentTarget.value))}
-              value={total}
-            />
-          </label>
-
-          <label className="flex w-full items-center justify-between py-4">
-            Fee:
-            <input
-              className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
-              placeholder="Fee (in microcredits)"
-              onChange={(event) => {
-                if (/^\d*(\.\d*)?$/.test(event.currentTarget.value)) { setFee(event.currentTarget.value) }
-              }}
-              value={fee}
-            />
-          </label>
-          <div className="flex items-center justify-center">
-            <Button
-              disabled={
-                !publicKey ||
-                !total ||
-                !address ||
-                fee === undefined
-              }
-              type="submit"
-              className="shadow-card dark:bg-gray-700 md:h-10 md:px-5 xl:h-12 xl:px-7"
+      <div className='flex'>
+          <div className='px-4 w-1/2'>
+            <form
+              noValidate
+              role="search"
+              onSubmit={handleSubmit}
+              className="relative flex w-full flex-col rounded-full md:w-auto"
             >
-              {!publicKey ? 'Connect Your Wallet' : 'Submit'}
-            </Button>
+              <div className='text-center text-lg'>Upload 1 Whitelisted Address</div>
+              <label className="flex w-full items-center justify-between py-4">
+                Address:
+                <input
+                  className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
+                  placeholder="aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey"
+                  onChange={(event) => setAddress(event.currentTarget.value)}
+                  value={address}
+                />
+              </label>
+
+              <label className="flex w-full items-center justify-between py-4">
+                Max NFTs:
+                <input
+                  className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
+                  onChange={(event) => setTotal(safeParseInt(event.currentTarget.value))}
+                  value={total}
+                />
+              </label>
+
+              <label className="flex w-full items-center justify-between py-4">
+                Fee:
+                <input
+                  className="h-11 w-10/12 appearance-none rounded-lg border-2 border-gray-200 bg-transparent py-1 text-sm tracking-tighter text-gray-900 outline-none transition-all placeholder:text-gray-600 focus:border-gray-900 ltr:pr-5 ltr:pl-10 rtl:pr-10 dark:border-gray-600 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-gray-500"
+                  placeholder="Fee (in microcredits)"
+                  onChange={(event) => {
+                    if (/^\d*(\.\d*)?$/.test(event.currentTarget.value)) { setFee(event.currentTarget.value) }
+                  }}
+                  value={fee}
+                />
+              </label>
+              <div className="flex items-center justify-center">
+                <Button
+                  disabled={
+                    !publicKey ||
+                    !total ||
+                    !address ||
+                    fee === undefined
+                  }
+                  type="submit"
+                  className="shadow-card dark:bg-gray-700 md:h-10 md:px-5 xl:h-12 xl:px-7"
+                >
+                  {!publicKey ? 'Connect Your Wallet' : 'Submit'}
+                </Button>
+              </div>
+            </form>
           </div>
-        </form>
+          <div className='px-4 w-1/2'>
+            <BulkWhitelist />
+          </div>
+        </div>
 
         {transactionId && (
           <div>

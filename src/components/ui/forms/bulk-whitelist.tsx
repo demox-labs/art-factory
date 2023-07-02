@@ -8,28 +8,25 @@ import {
   WalletNotConnectedError,
 } from '@demox-labs/aleo-wallet-adapter-base';
 import { NFTProgramId } from '@/aleo/nft-program';
-import {padArray, splitStringToBigInts } from '@/lib/util';
 import CSVUploader from '../csv-uploader';
 
-const BulkAdd = () => {
+const BulkWhitelist = () => {
   const { wallet, publicKey } = useWallet();
 
-  let [fee, setFee] = useState<string>('3.52');
-  let [nfts, setNfts] = useState<{ url: string, edition: number }[]>([]);
+  let [fee, setFee] = useState<string>('1.504');
+  let [minters, setMinters] = useState<{ address: string, total: number }[]>([]);
   let [transactionIds, setTransactionIds] = useState<string[] | undefined>();
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!publicKey) throw new WalletNotConnectedError();
 
-    if (nfts.length === 0) {
+    if (minters.length === 0) {
       throw new Error('No NFTs to add');
     }
 
-    const inputs = nfts.map(({ url, edition }) => {
-      const urlInputs = padArray(splitStringToBigInts(url), 2);
-      const formattedUrlInput = `{ data1: ${urlInputs[0]}u128, data2: ${urlInputs[1]}u128 }`;
-      return [formattedUrlInput, `${edition}scalar`];
+    const inputs = minters.map(({ address, total }) => {
+      return [address, `${total}u8`];
     });
 
     const aleoTransactions = inputs.map((input) => {
@@ -37,7 +34,7 @@ const BulkAdd = () => {
         publicKey,
         WalletAdapterNetwork.Testnet,
         NFTProgramId,
-        'add_nft',
+        'add_minter',
         input,
         Math.floor(parseFloat(fee) * 1_000_000),
       );
@@ -58,13 +55,13 @@ const BulkAdd = () => {
       onSubmit={handleSubmit}
       className="relative flex w-full flex-col rounded-full md:w-auto"
     >
-      <div className='text-center text-lg'>Upload Bulk NFTs</div>
+      <div className='text-center text-lg'>Upload Bulk Whitelist</div>
       <div className="flex w-full items-center justify-between pb-2 pt-8">
         File: 
         <div className='flex w-10/12'>
-          <CSVUploader<{ url: string, edition: number }>
+          <CSVUploader<{ address: string, total: number }>
             bulkAddData={(data) => {
-              setNfts(data);
+              setMinters(data);
             }}
           />
         </div>
@@ -100,4 +97,4 @@ const BulkAdd = () => {
 };
 
 
-export default BulkAdd;
+export default BulkWhitelist;
