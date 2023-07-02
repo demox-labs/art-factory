@@ -1,6 +1,6 @@
-export const NFTProgramId = 'privacy_pride_nft_v1.aleo';
+export const NFTProgramId = 'privacy_pride_nft_v2.aleo';
 
-export const NFTProgram = `program privacy_pride_nft_v1.aleo;
+export const NFTProgram = `program privacy_pride_nft_v2.aleo;
 
 struct TokenId:
     data1 as u128;
