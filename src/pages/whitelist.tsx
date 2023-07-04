@@ -16,6 +16,7 @@ import {safeParseInt } from '@/lib/util';
 import useSWR from 'swr';
 import { TESTNET3_API_URL, getWhitelist } from '@/aleo/rpc';
 import BulkWhitelist from '@/components/ui/forms/bulk-whitelist';
+import CSVExportButton from '@/components/ui/button/csv-export';
 
 
 const Whitelist: NextPageWithLayout = () => {
@@ -149,9 +150,14 @@ const Whitelist: NextPageWithLayout = () => {
       {data && data.length > 0 && (
         <Base key="list">
           <div className="flex flex-col items-center justify-center">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              Whitelist
-            </h2>
+            <div className='flex justify-between w-full'>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                Whitelist
+              </h2>
+              <div className="my-4">
+                <CSVExportButton data={data} filename='whitelist.csv' />
+              </div>
+            </div>
             <div key={'headers'} className="flex w-full underline items-center justify-between my-4">
               <div className="w-2/3">
                 Address

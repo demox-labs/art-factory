@@ -16,6 +16,7 @@ import {padArray, safeParseInt, splitStringToBigInts } from '@/lib/util';
 import useSWR from 'swr';
 import { TESTNET3_API_URL, getNFTs } from '@/aleo/rpc';
 import BulkAdd from '@/components/ui/forms/bulk-add';
+import CSVExportButton from '@/components/ui/button/csv-export';
 
 
 const Add: NextPageWithLayout = () => {
@@ -149,9 +150,19 @@ const Add: NextPageWithLayout = () => {
       {data && data.nfts &&
         <Base key="list">
           <div className="flex flex-col items-center justify-center">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            <div className='flex justify-between w-full'>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
               Current NFTs
-            </h2>
+              </h2>
+              <div className="my-4">
+                <CSVExportButton data={data.nfts.map((item: any) => {
+                  return {
+                    url: item.url,
+                    imageUrl: item.properties.image,
+                    edition: item.edition
+                  }})} filename='nfts.csv' />
+              </div>
+            </div>
             <div key={'headers'} className="flex w-full underline items-center justify-between my-4">
               <div className="w-1/5">
                 Image
