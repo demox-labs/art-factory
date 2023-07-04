@@ -183,16 +183,12 @@ finalize mint:
     input r1 as field.public;
     get settings[2u8] into r2;
     assert.eq r2 1u128;
-    get settings[8u8] into r3;
-    cast r3 into r4 as u32;
-    lte r4 block.height into r5;
-    assert.eq r5 true;
-    get whitelist[r0] into r6;
-    sub r6 1u8 into r7;
-    set r7 into whitelist[r0];
-    get nft_totals[r1] into r8;
-    sub r8 1u8 into r9;
-    set r9 into nft_totals[r1];
+    get whitelist[r0] into r3;
+    sub r3 1u8 into r4;
+    set r4 into whitelist[r0];
+    get nft_totals[r1] into r5;
+    sub r5 1u8 into r6;
+    set r6 into nft_totals[r1];
 
 
 function transfer_private:

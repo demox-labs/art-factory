@@ -183,12 +183,6 @@ program leo_nft.aleo {
         let is_live: u128 = settings.get(2u8);
         assert_eq(is_live, 1u128);
 
-        // Ensure mint block height is less than current block height
-        let mint_block: u128 = settings.get(8u8);
-        let mint_height: u32 = mint_block as u32;
-        let passed_height_check: bool = mint_height <= block.height;
-        assert_eq(passed_height_check, true);
-
         // Ensure owner can mint and decrease remaining mints (overflow protection)
         let remaining: u8 = whitelist.get(owner);
         whitelist.set(owner, remaining - 1u8);

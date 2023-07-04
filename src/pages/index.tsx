@@ -100,7 +100,7 @@ const MintPage: NextPageWithLayout = () => {
       NFTProgramId,
       'mint',
       inputs,
-      Math.floor(50_000),
+      Math.floor(4_250_000),
     );
 
     const txId =
