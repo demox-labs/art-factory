@@ -5,7 +5,7 @@ import Layout from '@/layouts/_layout';
 import Button from '@/components/ui/button';
 import { ImageSlider } from '@/components/ui/image-slider';
 import useSWR from 'swr';
-import { TESTNET3_API_URL, getHeight, getMintBlock, getMintStatus, getUnmintedNFTs, getWhitelist } from '@/aleo/rpc';
+import { TESTNET3_API_URL, getHeight, getJSON, getMintBlock, getMintStatus, getUnmintedNFTs, getWhitelist } from '@/aleo/rpc';
 import { useWallet } from '@demox-labs/aleo-wallet-adapter-react';
 import { LeoWalletAdapter } from '@demox-labs/aleo-wallet-adapter-leo';
 import { Transaction, WalletAdapterNetwork, WalletNotConnectedError } from '@demox-labs/aleo-wallet-adapter-base';
@@ -66,6 +66,7 @@ const MintPage: NextPageWithLayout = () => {
   const { data: mintBlock, error: mintBlockError, isLoading: mintBlockIsLoading } = useSWR('getMintBlock', () => getMintBlock(TESTNET3_API_URL));
 
   let [transactionId, setTransactionId] = useState<string | undefined>();
+  let [nftImage, setNFTImage] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
   let [errorMessage, setErrorMessage] = useState<string | undefined>();
 
@@ -108,6 +109,9 @@ const MintPage: NextPageWithLayout = () => {
         aleoTransaction
       )) || '';
     setTransactionId(txId);
+
+    const properties = await getJSON(`https://${nftToMint.url}`);
+    setNFTImage(properties.image);
   };
 
   const getTransactionStatus = async (txId: string) => {
@@ -121,7 +125,12 @@ const MintPage: NextPageWithLayout = () => {
   if (height && mintBlock) {
     timeToMint = (mintBlock.block - height) * 15_000; // 15 seconds per block
   }
-  
+
+  let sliderImages = DEFAULT_IMAGES;
+  if (nftImage) {
+    sliderImages = [nftImage];
+  }
+
   return (
     <>
       <NextSeo
@@ -137,7 +146,7 @@ const MintPage: NextPageWithLayout = () => {
             <MintCountdown date={Date.now() + timeToMint} />
           </div>
         )}
-        <ImageSlider images={DEFAULT_IMAGES} interval={5000} />
+        <ImageSlider images={sliderImages} interval={5000} />
         {data !== undefined && (
           <div className='flex justify-center my-8'>
             <Button

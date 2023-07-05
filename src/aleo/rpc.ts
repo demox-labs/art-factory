@@ -118,7 +118,7 @@ export async function getMintBlock(apiUrl: string): Promise<{ block: number }> {
   return { block };
 }
 
-export async function getNFTs(apiUrl: string): Promise<any> {
+export async function getNFTs(apiUrl: string, fetchProperties: boolean = true): Promise<any> {
   const initializedCollection = await getInitializedCollection(apiUrl);
   const addNFTTransactions = await getAleoTransactionsForProgram(NFTProgramId, 'add_nft', apiUrl);
 
@@ -133,6 +133,9 @@ export async function getNFTs(apiUrl: string): Promise<any> {
   });
 
   nfts = await Promise.all(nfts.map(async (nft: any) => {
+    if (!fetchProperties) {
+      return nft;
+    }
     const properties = await getJSON(`https://${nft.url}`);
     return {
       ...nft,
@@ -146,7 +149,7 @@ export async function getNFTs(apiUrl: string): Promise<any> {
 }
 
 export async function getUnmintedNFTs(apiUrl: string): Promise<any> {
-  const allNFTs = await getNFTs(apiUrl);
+  const allNFTs = await getNFTs(apiUrl, false);
   const mintTransactions = await getAleoTransactionsForProgram(NFTProgramId, 'mint', apiUrl);
   const mintedNFTs = new Set(mintTransactions.map((tx: any) => {
     const urlBigInts = parseStringToBigIntArray(tx.execution.transitions[0].inputs[0].value);
@@ -181,7 +184,7 @@ export const getClient = (apiUrl: string) => {
   return client;
 };
 
-async function getJSON(url: string): Promise<any> {
+export async function getJSON(url: string): Promise<any> {
   const response = await fetch(url);
   const data = await response.json();
   return data;
