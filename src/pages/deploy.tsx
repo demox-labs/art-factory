@@ -138,7 +138,7 @@ const Deploy: NextPageWithLayout = () => {
         {data &&
           <>
             <div className="relative flex w-full flex-col rounded-full md:w-auto text-center p-8">
-              {getProgramNameInContract()} is already deployed <a target="_blank" rel="noopener noreferrer" className="underline mt-4" href={`https://explorer.hamp.app/program?id=${NFTProgramId}`}>View on Explorer</a>
+              {getProgramNameInContract()} is already deployed <a target="_blank" rel="noopener noreferrer" className="underline mt-4" href={`https://explorer.hamp.app/program?id=${getProgramNameInContract()}.aleo`}>View on Explorer</a>
             </div>
           </>
             }
