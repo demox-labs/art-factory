@@ -4,6 +4,7 @@ import { bigIntToString, joinBigIntsToString, parseStringToBigIntArray } from '@
 import assert from 'assert';
 
 export const TESTNET3_API_URL = process.env.RPC_URL!;
+const ALEO_URL = 'https://vm.aleo.org/api/testnet3/program/';
 
 export async function getHeight(apiUrl: string): Promise<number> {
   const client = getClient(apiUrl);
@@ -17,6 +18,11 @@ export async function getProgram(programId: string, apiUrl: string): Promise<str
     id: programId
   });
   return program;
+}
+
+export async function getClaimValue(claim: string): Promise<string> {
+  const response = await fetch(`${ALEO_URL}${NFTProgramId}/mapping/claims_to_nfts/${claim}`);
+  return response.text();
 }
 
 export async function getTransactionsForProgram(programId: string, functionName: string, apiUrl: string): Promise<any> {
@@ -53,37 +59,6 @@ export async function getTransaction(apiUrl: string, transactionId: string): Pro
   return transaction;
 }
 
-export async function getUnmintedNFTs(apiUrl: string): Promise<any> {
-  const allNFTs = await getNFTs(apiUrl, false);
-  const mintTransactionsMetadata = await getAleoTransactionsForProgram(NFTProgramId, 'mint', apiUrl);
-  const mintedNFTs = new Set(mintTransactionsMetadata.map((txM: any) => {
-    const tx = txM.transaction;
-    const urlBigInts = parseStringToBigIntArray(tx.execution.transitions[0].inputs[0].value);
-    const relativeUrl = joinBigIntsToString(urlBigInts);
-    return allNFTs.baseURI + relativeUrl;
-  }));
-
-  const unmintedNFTs = allNFTs.nfts.filter((nft: any) => !mintedNFTs.has(nft.url));
-  return unmintedNFTs;
-}
-
-export async function getMintStatus(apiUrl: string): Promise<{ active: boolean }> {
-  const transactions = await getTransactionsForProgram(NFTProgramId, 'set_mint_status', apiUrl);
-  const transactionIds = transactions.map((transactionId: any) => transactionId.transaction_id);
-  if (transactionIds.length === 0) {
-    return { active: false };
-  }
-
-  const transaction = await getTransaction(apiUrl, transactionIds[transactionIds.length - 1]);
-  const status = transaction.execution.transitions[0].inputs[0].value;
-
-  if (status !== '0u128') {
-    return { active: true };
-  }
-
-  return { active: false };
-}
-
 // Handle the case where a whitelist operation is done twice for the same address
 export async function getWhitelist(apiUrl: string): Promise<any> {
   const addMinterTransactionMetadata = await getAleoTransactionsForProgram(NFTProgramId, 'add_minter', apiUrl);
@@ -104,6 +79,20 @@ export async function getWhitelist(apiUrl: string): Promise<any> {
   const uniqueWhitelist = Array.from(uniqueMap.values());
 
   return uniqueWhitelist;
+}
+
+export async function getMintedNFTs(apiUrl: string): Promise<any> {
+  const mintTransactionsMetadata = await getAleoTransactionsForProgram(NFTProgramId, 'mint', apiUrl);
+  const mintedNFTs = mintTransactionsMetadata.map((txM: any) => {
+    const urlBigInts = parseStringToBigIntArray(txM.transaction.execution.transitions[0].inputs[0].value);
+    const relativeUrl = joinBigIntsToString(urlBigInts);
+    return {
+      url: relativeUrl,
+      edition: parseInt(txM.transaction.execution.transitions[0].inputs[1].value.slice(0, -6)),
+      inputs: txM.transaction.execution.transitions[0].inputs
+    }
+  });
+  return mintedNFTs;
 }
 
 export async function getInitializedCollection(apiUrl: string): Promise<any> {

@@ -12,7 +12,7 @@ import useSWR from 'swr';
 import { TESTNET3_API_URL, getSettingsStatus } from '@/aleo/rpc';
 import { convertSettingsToNumber, getSettingsFromNumber } from '@/lib/util';
 
-const MintStatus = () => {
+const WhitelistStatus = () => {
   const { wallet, publicKey } = useWallet();
   const { data, error, isLoading } = useSWR('getSettingsStatus', () => getSettingsStatus(TESTNET3_API_URL));
 
@@ -40,10 +40,10 @@ const MintStatus = () => {
     event.preventDefault();
     if (!publicKey) throw new WalletNotConnectedError();
 
-    if (!data) throw new Error('No current mint status');
+    if (!data) throw new Error('No current whitelist status');
 
     let settings = getSettingsFromNumber(data);
-    settings.active = !settings.active;
+    settings.whiteList = !settings.whiteList;
     const newStatus = convertSettingsToNumber(settings) + 'u32';
 
     const aleoTransaction = Transaction.createTransaction(
@@ -73,7 +73,7 @@ const MintStatus = () => {
     <>
       <div className="flex flex-col items-center justify-center">
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-          Mint Status { data && (getSettingsFromNumber(data).active ? ': Live': ': Not Active')}
+          Whitelist Mint Records Required? : { data && (getSettingsFromNumber(data).whiteList ? 'Yes': 'No')}
         </h2>
       </div>
       <form
@@ -102,7 +102,7 @@ const MintStatus = () => {
             type="submit"
             className="shadow-card dark:bg-gray-700 md:h-10 md:px-5 xl:h-12 xl:px-7"
           >
-            {!publicKey ? 'Connect Your Wallet' : 'Toggle Mint Status'}
+            {!publicKey ? 'Connect Your Wallet' : 'Toggle Whitelist Requirement'}
           </Button>
         </div>
       </form>
@@ -117,4 +117,4 @@ const MintStatus = () => {
 };
 
 
-export default MintStatus;
+export default WhitelistStatus;

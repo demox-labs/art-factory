@@ -1,3 +1,24 @@
+export function getSettingsFromNumber(settingNum: number): { frozen: boolean, active: boolean, whiteList: boolean, initialized: boolean } {
+  const bitStringArray = settingNum.toString(2).padStart(32, '0').split('').reverse();
+  return {
+    initialized: bitStringArray[0] === '1',
+    active: bitStringArray[1] === '1',
+    whiteList: bitStringArray[2] === '1',
+    frozen: bitStringArray[3] === '1',
+  };
+}
+
+function getBit(setting: boolean): string {
+  return setting ? '1' : '0';
+}
+
+export function convertSettingsToNumber(settings: { frozen: boolean, active: boolean, whiteList: boolean, initialized: boolean }): number {
+  const { frozen, active, whiteList, initialized } = settings;
+  const bitString = `${getBit(frozen)}${getBit(whiteList)}${getBit(active)}${getBit(initialized)}`;
+  
+  return parseInt(bitString, 2);
+}
+
 export function safeParseInt(value: string): number {
   const parsedValue = parseInt(value, 10);
   return isNaN(parsedValue) ? 0 : parsedValue;

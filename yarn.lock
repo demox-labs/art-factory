@@ -943,10 +943,10 @@
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@demox-labs/aleo-wallet-adapter-leo@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.14.tgz#0f69ee33ab4d3d08eae8294be7aea000ae9d08a0"
-  integrity sha512-j9yxH/fE8x1lm9CwudAAaXd81Ym7CKbb+4oDCv0O04TRuC8x2E+Zb4zz1VAosVwjwnmlEPibYgfzbT6IPK7ttA==
+"@demox-labs/aleo-wallet-adapter-leo@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.15.tgz#16033c6cd54d9bb5f173dabaff594b944c11f6d1"
+  integrity sha512-1Dz9c6E5p6q3qBQmALWIzmnrt3RTg0NSPRYD3+p0ZyvxsxeebYmB+oGwVyRmrY2yF3VLsS7rGNvoYOs1nYEyuA==
   dependencies:
     "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
     nanoid "^4.0.0"
@@ -1934,6 +1934,18 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/lodash.debounce@^4.0.7":
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
+  integrity sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.195"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
+  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
 "@types/lodash@^4.14.175":
   version "4.14.191"

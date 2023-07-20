@@ -1,6 +1,6 @@
-export const NFTProgramId = 'privacy_pride_nft_v3.aleo';
+export const NFTProgramId = 'your_nft_name_goes_here.aleo';
 
-export const NFTProgram = `program privacy_pride_nft_v3.aleo;
+export const NFTProgram = `program your_nft_name_goes_here.aleo;
 
 struct TokenId:
     data1 as u128;
@@ -20,6 +20,14 @@ record NFT:
     data as TokenId.private;
     edition as scalar.private;
 
+record NFT_mint:
+    owner as address.private;
+    amount as u8.private;
+
+record NFT_claim:
+    owner as address.private;
+    claim as field.private;
+
 record NFT_ownership:
     owner as address.private;
     nft_owner as address.private;
@@ -27,30 +35,35 @@ record NFT_ownership:
     edition as scalar.private;
 
 
-mapping nft_totals:
-	key left as field.public;
-	value right as u8.public;
-
-
 mapping nft_owners:
 	key left as field.public;
 	value right as address.public;
 
 
-mapping settings:
+mapping general_settings:
 	key left as u8.public;
 	value right as u128.public;
 
 
-mapping whitelist:
-	key left as address.public;
-	value right as u8.public;
+mapping nfts_to_mint:
+	key left as u128.public;
+	value right as field.public;
+
+
+mapping claims_to_nfts:
+	key left as field.public;
+	value right as field.public;
+
+
+mapping toggle_settings:
+	key left as u8.public;
+	value right as u32.public;
 
 function initialize_collection:
     input r0 as u128.public;
     input r1 as u128.public;
     input r2 as BaseURI.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    assert.eq self.caller aleo1youraddressgoeshere;
 
     finalize r0 r1 r2;
 
@@ -58,139 +71,201 @@ finalize initialize_collection:
     input r0 as u128.public;
     input r1 as u128.public;
     input r2 as BaseURI.public;
-    get.or_use settings[0u8] 0u128 into r3;
-    assert.eq r3 0u128;
-    set 1u128 into settings[0u8];
-    set r0 into settings[1u8];
-    set 0u128 into settings[2u8];
-    set r1 into settings[3u8];
-    set r2.data0 into settings[4u8];
-    set r2.data1 into settings[5u8];
-    set r2.data2 into settings[6u8];
-    set r2.data3 into settings[7u8];
-    set 0u128 into settings[8u8];
-    set 0u128 into settings[9u8];
+    get.or_use toggle_settings[0u8] 0u32 into r3;
+    and r3 1u32 into r4;
+    assert.eq r4 0u32;
+    set 0u128 into general_settings[0u8];
+    set r0 into general_settings[1u8];
+    set r1 into general_settings[2u8];
+    set r2.data0 into general_settings[3u8];
+    set r2.data1 into general_settings[4u8];
+    set r2.data2 into general_settings[5u8];
+    set r2.data3 into general_settings[6u8];
+    set 5u32 into toggle_settings[0u8];
+    set 0u32 into toggle_settings[1u8];
 
 
 function add_nft:
     input r0 as TokenId.public;
     input r1 as scalar.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    assert.eq self.caller aleo1youraddressgoeshere;
     hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;
     finalize r3;
 
 finalize add_nft:
     input r0 as field.public;
-    get settings[9u8] into r1;
-    assert.eq r1 0u128;
-    get.or_use nft_totals[r0] 255u8 into r2;
-    assert.eq r2 255u8;
-    set 1u8 into nft_totals[r0];
-    get settings[1u8] into r3;
+    get toggle_settings[0u8] into r1;
+    and r1 9u32 into r2;
+    assert.eq r2 1u32;
+    get general_settings[1u8] into r3;
     sub r3 1u128 into r4;
-    set r4 into settings[1u8];
+    set r4 into general_settings[1u8];
+    get general_settings[0u8] into r5;
+    set r0 into nfts_to_mint[r5];
+    add r5 1u128 into r6;
+    set r6 into general_settings[0u8];
 
 
 function add_minter:
-    input r0 as address.public;
+    input r0 as address.private;
     input r1 as u8.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    assert.eq self.caller aleo1youraddressgoeshere;
+    cast r0 r1 into r2 as NFT_mint.record;
+    output r2 as NFT_mint.record;
 
-    finalize r0 r1;
+    finalize;
 
 finalize add_minter:
-    input r0 as address.public;
-    input r1 as u8.public;
-    get settings[9u8] into r2;
-    assert.eq r2 0u128;
-    set r1 into whitelist[r0];
+    get toggle_settings[0u8] into r0;
+    and r0 9u32 into r1;
+    assert.eq r1 1u32;
 
 
-function set_mint_status:
-    input r0 as u128.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+function update_toggle_settings:
+    input r0 as u32.public;
+    assert.eq self.caller aleo1youraddressgoeshere;
 
     finalize r0;
 
-finalize set_mint_status:
-    input r0 as u128.public;
-    get settings[9u8] into r1;
-    assert.eq r1 0u128;
-    set r0 into settings[2u8];
+finalize update_toggle_settings:
+    input r0 as u32.public;
+    get toggle_settings[0u8] into r1;
+    and r1 9u32 into r2;
+    assert.eq r2 1u32;
+    and r0 1u32 into r3;
+    assert.eq r3 1u32;
+    set r0 into toggle_settings[0u8];
 
 
 function set_mint_block:
-    input r0 as u128.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    input r0 as u32.public;
+    assert.eq self.caller aleo1youraddressgoeshere;
 
     finalize r0;
 
 finalize set_mint_block:
-    input r0 as u128.public;
-    get settings[9u8] into r1;
-    assert.eq r1 0u128;
-    set r0 into settings[8u8];
+    input r0 as u32.public;
+    get toggle_settings[0u8] into r1;
+    and r1 9u32 into r2;
+    assert.eq r2 1u32;
+    set r0 into toggle_settings[1u8];
 
 
 function update_symbol:
     input r0 as u128.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    assert.eq self.caller aleo1youraddressgoeshere;
 
     finalize r0;
 
 finalize update_symbol:
     input r0 as u128.public;
-    get settings[9u8] into r1;
-    assert.eq r1 0u128;
-    set r0 into settings[3u8];
+    get toggle_settings[0u8] into r1;
+    and r1 9u32 into r2;
+    assert.eq r2 1u32;
+    set r0 into general_settings[2u8];
 
 
 function update_base_uri:
     input r0 as BaseURI.public;
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+    assert.eq self.caller aleo1youraddressgoeshere;
 
     finalize r0;
 
 finalize update_base_uri:
     input r0 as BaseURI.public;
-    get settings[9u8] into r1;
-    assert.eq r1 0u128;
-    set r0.data0 into settings[4u8];
-    set r0.data1 into settings[5u8];
-    set r0.data2 into settings[6u8];
-    set r0.data3 into settings[7u8];
+    get toggle_settings[0u8] into r1;
+    and r1 9u32 into r2;
+    assert.eq r2 1u32;
+    set r0.data0 into general_settings[3u8];
+    set r0.data1 into general_settings[4u8];
+    set r0.data2 into general_settings[5u8];
+    set r0.data3 into general_settings[6u8];
 
 
-function freeze:
-    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
+function open_mint:
+    input r0 as scalar.private;
+    hash.bhp256 self.caller into r1 as field;    commit.bhp256 r1 r0 into r2 as field;    cast self.caller r2 into r3 as NFT_claim.record;
+    output r3 as NFT_claim.record;
 
-    finalize;
+    finalize r2;
 
-finalize freeze:
-    get settings[9u8] into r0;
-    assert.eq r0 0u128;
-    set 1u128 into settings[9u8];
+finalize open_mint:
+    input r0 as field.public;
+    get toggle_settings[1u8] into r1;
+    lte r1 block.height into r2;
+    assert.eq r2 true;
+    get toggle_settings[0u8] into r3;
+    and r3 15u32 into r4;
+    assert.eq r4 3u32;
+    get.or_use claims_to_nfts[r0] 0field into r5;
+    assert.eq r5 0field;
+    rand.chacha into r6 as u128;
+    get.or_use general_settings[0u8] 0u128 into r7;
+    rem r6 r7 into r8;
+    get nfts_to_mint[r8] into r9;
+    set r9 into claims_to_nfts[r0];
+    sub r7 1u128 into r10;
+    set r10 into general_settings[0u8];
+    get nfts_to_mint[r10] into r11;
+    set r11 into nfts_to_mint[r8];
 
 
 function mint:
-    input r0 as TokenId.public;
-    input r1 as scalar.public;
-    hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;    cast self.caller r0 r1 into r4 as NFT.record;
-    output r4 as NFT.record;
+    input r0 as NFT_mint.record;
+    input r1 as scalar.private;
+    hash.bhp256 self.caller into r2 as field;    commit.bhp256 r2 r1 into r3 as field;    sub r0.amount 1u8 into r4;
+    cast r0.owner r4 into r5 as NFT_mint.record;
+    cast r0.owner r3 into r6 as NFT_claim.record;
+    output r5 as NFT_mint.record;
+    output r6 as NFT_claim.record;
 
-    finalize self.caller r3;
+    finalize r3;
 
 finalize mint:
-    input r0 as address.public;
+    input r0 as field.public;
+    get toggle_settings[1u8] into r1;
+    lte r1 block.height into r2;
+    assert.eq r2 true;
+    get toggle_settings[0u8] into r3;
+    and r3 11u32 into r4;
+    assert.eq r4 3u32;
+    get.or_use claims_to_nfts[r0] 0field into r5;
+    assert.eq r5 0field;
+    rand.chacha into r6 as u128;
+    get.or_use general_settings[0u8] 0u128 into r7;
+    rem r6 r7 into r8;
+    get nfts_to_mint[r8] into r9;
+    set r9 into claims_to_nfts[r0];
+    sub r7 1u128 into r10;
+    set r10 into general_settings[0u8];
+    get nfts_to_mint[r10] into r11;
+    set r11 into nfts_to_mint[r8];
+
+
+function claim_nft:
+    input r0 as NFT_claim.record;
+    input r1 as TokenId.private;
+    input r2 as scalar.private;
+    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;    cast r0.owner r1 r2 into r5 as NFT.record;
+    output r5 as NFT.record;
+
+    finalize r0.claim r4;
+
+finalize claim_nft:
+    input r0 as field.public;
     input r1 as field.public;
-    get settings[2u8] into r2;
-    assert.eq r2 1u128;
-    get whitelist[r0] into r3;
-    sub r3 1u8 into r4;
-    set r4 into whitelist[r0];
-    get nft_totals[r1] into r5;
-    sub r5 1u8 into r6;
-    set r6 into nft_totals[r1];
+    get claims_to_nfts[r0] into r2;
+    assert.eq r2 r1;
+    set 0field into claims_to_nfts[r0];
+
+
+function authorize:
+    input r0 as NFT.record;
+
+    finalize;
+
+finalize authorize:
+    assert.eq 0u8 1u8;
 
 
 function transfer_private:
