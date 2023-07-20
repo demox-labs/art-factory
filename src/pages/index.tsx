@@ -91,7 +91,7 @@ const MintPage: NextPageWithLayout = () => {
 
     if (!data || !unmintedNFTs) throw new Error('No current mint status');
 
-    const nftToMint: any = getRandomElement(unmintedNFTs.nfts);
+    const nftToMint: any = getRandomElement(unmintedNFTs);
     const tokenId = nftToMint.inputs[0].value.replace(/\r?\n|\r/g, '');
     const inputs = [tokenId, nftToMint.inputs[1].value];
 
