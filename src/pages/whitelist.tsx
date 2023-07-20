@@ -14,7 +14,7 @@ import {
 import { NFTProgramId } from '@/aleo/nft-program';
 import {safeParseInt } from '@/lib/util';
 import useSWR from 'swr';
-import { TESTNET3_API_URL, getWhitelist } from '@/aleo/rpc';
+import { TESTNET3_API_URL, getMintedNFTs, getWhitelist } from '@/aleo/rpc';
 import BulkWhitelist from '@/components/ui/forms/bulk-whitelist';
 import CSVExportButton from '@/components/ui/button/csv-export';
 
@@ -168,7 +168,7 @@ const Whitelist: NextPageWithLayout = () => {
             </div>
             {data.map((item: any, index: number) => (
               <div key={index} className="flex w-full items-center justify-between my-2">
-                <div className="w-2/3">
+                <div className="w-3/5 truncate overflow-hidden">
                   {item.address}
                 </div>
                 <div className="w-1/3">
