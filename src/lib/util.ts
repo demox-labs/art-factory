@@ -105,3 +105,7 @@ export function getRandomElement<T>(list: T[]): T {
   const randomIndex = Math.floor(Math.random() * list.length);
   return list[randomIndex];
 }
+
+export const removeVisibilitySuffix = (str: string): string => {
+  return str.replace(/\.public$|\.private$/, '');
+};

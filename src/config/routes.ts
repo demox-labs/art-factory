@@ -5,6 +5,7 @@ const routes = {
   whitelist: '/whitelist',
   add: '/add',
   settings: '/settings',
+  authorize: '/authorize',
 };
 
 export default routes;

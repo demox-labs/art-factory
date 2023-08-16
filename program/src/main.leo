@@ -339,7 +339,8 @@ program leo_nft.aleo {
     // this burn never actually destroys the nft as the finalize
     // block is guaranteed to fail.
     transition authorize(
-        nft: NFT
+        nft: NFT,
+        public nonce: u64
     )
     {
         return then finalize();
@@ -427,21 +428,5 @@ program leo_nft.aleo {
         assert_eq(owner, nft_owners.get(tokenEditionHash));
         // mapping::remove is not implemented yet, so instead we set the owner to be a dummy address that cannot publicly transfer or convert to private
         nft_owners.set(tokenEditionHash, aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc);
-    }
-
-    transition prove_ownership(private nft: NFT, private prove_to: address) -> (NFT, NFT_ownership) {
-        return (
-            NFT {
-                owner: nft.owner,
-                data: nft.data,
-                edition: nft.edition
-            },
-            NFT_ownership {
-                owner: prove_to,
-                nft_owner: nft.owner,
-                data: nft.data,
-                edition: nft.edition
-            }
-        );
     }
 }

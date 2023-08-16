@@ -931,40 +931,40 @@
   resolved "https://registry.yarnpkg.com/@corex/deepmerge/-/deepmerge-4.0.37.tgz#873dcf71aee46596d7e385437b0d94770ef4c85f"
   integrity sha512-PX90bEnrLdxd5e6rSFWsghExMuSw0Uov3fWJuuaoFuUQIS/446diu/4seExK5b+43L+SOBbd2uBGwYUkG1JfCw==
 
-"@demox-labs/aleo-sdk@^0.3.18":
-  version "0.3.18"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-sdk/-/aleo-sdk-0.3.18.tgz#0332fb4cbb8fe7fe03f299c844f117b29ad0a016"
-  integrity sha512-m8uxWPVlfvmswJqpX4qWaGVBgb0+bAonTx4Cb8JD561/nzMseNI/kR0qRrq7OSpedHSeEB6mOwoS2iSfU9xplw==
+"@demox-labs/aleo-sdk@^0.3.23":
+  version "0.3.23"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-sdk/-/aleo-sdk-0.3.23.tgz#4f1f4aeb0243febe2fb19788874300793f600f83"
+  integrity sha512-kC92Cx/iDhg/1l4g8E1WgY7RxZjotW3VFGUqVIZ+2EUyvlzCAHV9PwaluktiP3N9+l7o6+hQs7j0mhUnXkmlcQ==
 
-"@demox-labs/aleo-wallet-adapter-base@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-base/-/aleo-wallet-adapter-base-0.0.15.tgz#a4cdaed13b44a52b9174d34f5dee8a83dc64ba5b"
-  integrity sha512-GlB6HIxbNoBPmepVWHar58L9HPkB8EuVij2Ky7dfkJAqC1HuxBRLm3f5A2kxBUtWnvG9eH/AkTZLTKXkHHpLCQ==
+"@demox-labs/aleo-wallet-adapter-base@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-base/-/aleo-wallet-adapter-base-0.0.17.tgz#d97185298b779ab61a1873cb614b0b6198ee7c04"
+  integrity sha512-DK3cl6eMhhdobGFd8FkHhsJg3ogsQtcKSF0qA8jWHucqXpsbhK7RN2MFHvOCT+qHg9N+coYD/wEtpbY01QonZw==
   dependencies:
     eventemitter3 "^4.0.7"
 
-"@demox-labs/aleo-wallet-adapter-leo@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.15.tgz#16033c6cd54d9bb5f173dabaff594b944c11f6d1"
-  integrity sha512-1Dz9c6E5p6q3qBQmALWIzmnrt3RTg0NSPRYD3+p0ZyvxsxeebYmB+oGwVyRmrY2yF3VLsS7rGNvoYOs1nYEyuA==
+"@demox-labs/aleo-wallet-adapter-leo@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-leo/-/aleo-wallet-adapter-leo-0.0.16.tgz#5c2e59f5a754e281587e9cc4b818df5691787138"
+  integrity sha512-2XVO6ZsmLTUDv3hXQROu+rIa9yKxUiqes1I6T/eSfm2dPT/FzmUJv6XAOIDDIXeCXgwA3idomyRwHOt7YeYrVQ==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.17"
     nanoid "^4.0.0"
 
-"@demox-labs/aleo-wallet-adapter-react@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-react/-/aleo-wallet-adapter-react-0.0.15.tgz#4596079045b2bbc76fb7e6d0e1a43b66014aa941"
-  integrity sha512-F0tnbHfeUyYqmQh5laLHCY7pOHtYJrVTk6EWIyw2O44YsOMCEHWBrwMW3ajC6LoBRTmTTv/gLik8/v401QeLXg==
+"@demox-labs/aleo-wallet-adapter-react@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-react/-/aleo-wallet-adapter-react-0.0.16.tgz#d319fea80e31bec8832785320deff58fe583e12e"
+  integrity sha512-aOyuNZCMIIr+BGXvuI0c1mrwvV6U4NQ6kHpKv6WgZC/M1TI2n7qIV0lSqr4izkmi89Idpo7BtmZd5Cei3rCJsQ==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.17"
 
-"@demox-labs/aleo-wallet-adapter-reactui@^0.0.27":
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-reactui/-/aleo-wallet-adapter-reactui-0.0.27.tgz#5d881a0bb4df43cf4780c8b841cdbb55ca13d134"
-  integrity sha512-8YjdIyLVctt6x1BtFzy3Tz3HYQHw+kyu/7KtFobCLX9Tm9mcmFnyxy6zZX3DwXmx5ETh7TomtMNHsMmr14RHUQ==
+"@demox-labs/aleo-wallet-adapter-reactui@^0.0.28":
+  version "0.0.28"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-wallet-adapter-reactui/-/aleo-wallet-adapter-reactui-0.0.28.tgz#1b05251013b9426a38673970be504456f3a3642f"
+  integrity sha512-gR7PLLUp+hpens3vWIfSeyYE7KH5jsPoyRWDlElOm6cyFIvqItR7L9NkF19FnvOiOwppRxAiWegOlIUKJZ0cnQ==
   dependencies:
-    "@demox-labs/aleo-wallet-adapter-base" "^0.0.15"
-    "@demox-labs/aleo-wallet-adapter-react" "^0.0.15"
+    "@demox-labs/aleo-wallet-adapter-base" "^0.0.17"
+    "@demox-labs/aleo-wallet-adapter-react" "^0.0.16"
 
 "@emotion/is-prop-valid@^0.7.3":
   version "0.7.3"
