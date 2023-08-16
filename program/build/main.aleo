@@ -259,6 +259,7 @@ finalize claim_nft:
 
 function authorize:
     input r0 as NFT.record;
+    input r1 as u64.public;
 
     finalize;
 
@@ -316,12 +317,3 @@ finalize convert_public_to_private:
     get nft_owners[r1] into r2;
     assert.eq r0 r2;
     set aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc into nft_owners[r1];
-
-
-function prove_ownership:
-    input r0 as NFT.record;
-    input r1 as address.private;
-    cast r0.owner r0.data r0.edition into r2 as NFT.record;
-    cast r1 r0.owner r0.data r0.edition into r3 as NFT_ownership.record;
-    output r2 as NFT.record;
-    output r3 as NFT_ownership.record;

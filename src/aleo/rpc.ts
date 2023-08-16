@@ -4,7 +4,7 @@ import { bigIntToString, joinBigIntsToString, parseStringToBigIntArray } from '@
 import assert from 'assert';
 
 export const TESTNET3_API_URL = process.env.RPC_URL!;
-const ALEO_URL = 'https://vm.aleo.org/api/testnet3/program/';
+const ALEO_URL = 'https://vm.aleo.org/api/testnet3/';
 
 export async function getHeight(apiUrl: string): Promise<number> {
   const client = getClient(apiUrl);
@@ -20,8 +20,24 @@ export async function getProgram(programId: string, apiUrl: string): Promise<str
   return program;
 }
 
+async function getDeploymentTransaction(programId: string): Promise<any> {
+  const response = await fetch(`${ALEO_URL}find/transactionID/deployment/${programId}`);
+  const deployTxId = await response.json();
+  const txResponse = await fetch(`${ALEO_URL}transaction/${deployTxId}`);
+  const tx = await txResponse.json();
+  return tx;
+}
+
+export async function getVerifyingKey(programId: string, functionName: string): Promise<string> {
+  const deploymentTx = await getDeploymentTransaction(programId);
+
+  const allVerifyingKeys = deploymentTx.deployment.verifying_keys;
+  const verifyingKey = allVerifyingKeys.filter((vk: any) => vk[0] === functionName)[0][1][0];
+  return verifyingKey;
+}
+
 export async function getClaimValue(claim: string): Promise<string> {
-  const response = await fetch(`${ALEO_URL}${NFTProgramId}/mapping/claims_to_nfts/${claim}`);
+  const response = await fetch(`${ALEO_URL}program/${NFTProgramId}/mapping/claims_to_nfts/${claim}`);
   return response.text();
 }
 

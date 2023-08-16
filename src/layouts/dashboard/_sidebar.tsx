@@ -45,6 +45,11 @@ const menuItems = [
     icon: <Unlocked />,
     href: routes.settings,
   },
+  {
+    name: 'Authorize',
+    icon: <OvenIcon />,
+    href: routes.authorize,
+  }
 ];
 
 type SidebarProps = {

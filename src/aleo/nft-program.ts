@@ -1,6 +1,6 @@
-export const NFTProgramId = 'your_nft_name_goes_here.aleo';
+export const NFTProgramId = 'privacy_pride_test12.aleo';
 
-export const NFTProgram = `program your_nft_name_goes_here.aleo;
+export const NFTProgram = `program privacy_pride_test12.aleo;
 
 struct TokenId:
     data1 as u128;
@@ -63,7 +63,7 @@ function initialize_collection:
     input r0 as u128.public;
     input r1 as u128.public;
     input r2 as BaseURI.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
 
     finalize r0 r1 r2;
 
@@ -88,7 +88,7 @@ finalize initialize_collection:
 function add_nft:
     input r0 as TokenId.public;
     input r1 as scalar.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
     hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;
     finalize r3;
 
@@ -109,7 +109,7 @@ finalize add_nft:
 function add_minter:
     input r0 as address.private;
     input r1 as u8.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
     cast r0 r1 into r2 as NFT_mint.record;
     output r2 as NFT_mint.record;
 
@@ -123,7 +123,7 @@ finalize add_minter:
 
 function update_toggle_settings:
     input r0 as u32.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
 
     finalize r0;
 
@@ -139,7 +139,7 @@ finalize update_toggle_settings:
 
 function set_mint_block:
     input r0 as u32.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
 
     finalize r0;
 
@@ -153,7 +153,7 @@ finalize set_mint_block:
 
 function update_symbol:
     input r0 as u128.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
 
     finalize r0;
 
@@ -167,7 +167,7 @@ finalize update_symbol:
 
 function update_base_uri:
     input r0 as BaseURI.public;
-    assert.eq self.caller aleo1youraddressgoeshere;
+    assert.eq self.caller aleo1uran94ddjnvdr0neh8d0mzxuvv77pyprnp7jmzpkuh7950t46qyqnsadey;
 
     finalize r0;
 
@@ -261,6 +261,7 @@ finalize claim_nft:
 
 function authorize:
     input r0 as NFT.record;
+    input r1 as u64.public;
 
     finalize;
 
@@ -318,13 +319,4 @@ finalize convert_public_to_private:
     get nft_owners[r1] into r2;
     assert.eq r0 r2;
     set aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc into nft_owners[r1];
-
-
-function prove_ownership:
-    input r0 as NFT.record;
-    input r1 as address.private;
-    cast r0.owner r0.data r0.edition into r2 as NFT.record;
-    cast r1 r0.owner r0.data r0.edition into r3 as NFT_ownership.record;
-    output r2 as NFT.record;
-    output r3 as NFT_ownership.record;
 `;
