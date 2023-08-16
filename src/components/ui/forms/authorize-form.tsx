@@ -12,6 +12,7 @@ import { NFTProgram, NFTProgramId } from '@/aleo/nft-program';
 import useSWR from 'swr';
 import { TESTNET3_API_URL, getBaseURI, getJSON, getVerifyingKey } from '@/aleo/rpc';
 import { joinBigIntsToString, removeVisibilitySuffix } from '@/lib/util';
+import { set } from 'lodash';
 
 const AUTHORIZE_FUNCTION = 'authorize';
 const AuthorizeForm = () => {
@@ -100,6 +101,12 @@ const AuthorizeForm = () => {
     setStatus(newStatus);
   };
 
+  const resetAuthorization = () => {
+    setExecution(undefined);
+    setTransactionId(undefined);
+    setStatus(undefined);
+  }
+
   return (
     <>
       <div className="flex flex-col items-center justify-center">
@@ -127,8 +134,8 @@ const AuthorizeForm = () => {
             <div className='text-center py-4'>
               <span>Select an NFT to Authorize</span>
             </div>
-            <div className="flex flex-col items-center justify-center">
-              {nfts.map((nft: any) => NFTComponent({ nft, setNFTId, nftId }))}
+            <div className="flex items-center justify-center">
+              {nfts.map((nft: any) => NFTComponent({ nft, setNFTId, resetAuthorization, nftId }))}
             </div>
           </>
         )}
@@ -171,10 +178,10 @@ const AuthorizeForm = () => {
   );
 };
 
-const NFTComponent = ({ nft, setNFTId, nftId }: any) => {
+const NFTComponent = ({ nft, setNFTId, resetAuthorization, nftId }: any) => {
   const selectedClass = nft.id === nftId ? `border-2 border-white` : '';
   return (
-    <img onClick={() => setNFTId(nft.id)} key={nft.id} src={nft.imageUrl} className={`w-1/5 rounded cursor-pointer ${selectedClass}`} />
+    <img onClick={() => { resetAuthorization(); setNFTId(nft.id); }} key={nft.id} src={nft.imageUrl} className={`p-4 w-1/5 rounded cursor-pointer ${selectedClass}`} />
   );
 };
 
