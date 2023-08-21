@@ -1,3 +1,7 @@
+## Documentation
+
+The full documentation can be found [here](https://art.privacypride.com/)
+
 ## 🚀 Quick Start
 
 Ensure you have:
