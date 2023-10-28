@@ -34,36 +34,36 @@ record NFT_ownership:
 
 
 mapping nft_owners:
-	key left as field.public;
-	value right as address.public;
+	key as field.public;
+	value as address.public;
 
 
 mapping general_settings:
-	key left as u8.public;
-	value right as u128.public;
+	key as u8.public;
+	value as u128.public;
 
 
 mapping nfts_to_mint:
-	key left as u128.public;
-	value right as field.public;
+	key as u128.public;
+	value as field.public;
 
 
 mapping claims_to_nfts:
-	key left as field.public;
-	value right as field.public;
+	key as field.public;
+	value as field.public;
 
 
 mapping toggle_settings:
-	key left as u8.public;
-	value right as u32.public;
+	key as u8.public;
+	value as u32.public;
 
 function initialize_collection:
     input r0 as u128.public;
     input r1 as u128.public;
     input r2 as BaseURI.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-
-    finalize r0 r1 r2;
+    async initialize_collection r0 r1 r2 into r3;
+    output r3 as leo_nft.aleo/initialize_collection.future;
 
 finalize initialize_collection:
     input r0 as u128.public;
@@ -87,8 +87,10 @@ function add_nft:
     input r0 as TokenId.public;
     input r1 as scalar.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-    hash.bhp256 r0 into r2 as field;    commit.bhp256 r2 r1 into r3 as field;
-    finalize r3;
+    hash.bhp256 r0 into r2 as field;
+    commit.bhp256 r2 r1 into r3 as field;
+    async add_nft r3 into r4;
+    output r4 as leo_nft.aleo/add_nft.future;
 
 finalize add_nft:
     input r0 as field.public;
@@ -109,9 +111,9 @@ function add_minter:
     input r1 as u8.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
     cast r0 r1 into r2 as NFT_mint.record;
+    async add_minter into r3;
     output r2 as NFT_mint.record;
-
-    finalize;
+    output r3 as leo_nft.aleo/add_minter.future;
 
 finalize add_minter:
     get toggle_settings[0u8] into r0;
@@ -122,8 +124,8 @@ finalize add_minter:
 function update_toggle_settings:
     input r0 as u32.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-
-    finalize r0;
+    async update_toggle_settings r0 into r1;
+    output r1 as leo_nft.aleo/update_toggle_settings.future;
 
 finalize update_toggle_settings:
     input r0 as u32.public;
@@ -138,8 +140,8 @@ finalize update_toggle_settings:
 function set_mint_block:
     input r0 as u32.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-
-    finalize r0;
+    async set_mint_block r0 into r1;
+    output r1 as leo_nft.aleo/set_mint_block.future;
 
 finalize set_mint_block:
     input r0 as u32.public;
@@ -152,8 +154,8 @@ finalize set_mint_block:
 function update_symbol:
     input r0 as u128.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-
-    finalize r0;
+    async update_symbol r0 into r1;
+    output r1 as leo_nft.aleo/update_symbol.future;
 
 finalize update_symbol:
     input r0 as u128.public;
@@ -166,8 +168,8 @@ finalize update_symbol:
 function update_base_uri:
     input r0 as BaseURI.public;
     assert.eq self.caller aleo1gy3d0s00s2k7rmgqznnx2q8htmjm2p5rk8q40u5yklqhe44utvys0dmzdy;
-
-    finalize r0;
+    async update_base_uri r0 into r1;
+    output r1 as leo_nft.aleo/update_base_uri.future;
 
 finalize update_base_uri:
     input r0 as BaseURI.public;
@@ -182,10 +184,12 @@ finalize update_base_uri:
 
 function open_mint:
     input r0 as scalar.private;
-    hash.bhp256 self.caller into r1 as field;    commit.bhp256 r1 r0 into r2 as field;    cast self.caller r2 into r3 as NFT_claim.record;
+    hash.bhp256 self.caller into r1 as field;
+    commit.bhp256 r1 r0 into r2 as field;
+    cast self.caller r2 into r3 as NFT_claim.record;
+    async open_mint r2 into r4;
     output r3 as NFT_claim.record;
-
-    finalize r2;
+    output r4 as leo_nft.aleo/open_mint.future;
 
 finalize open_mint:
     input r0 as field.public;
@@ -211,13 +215,15 @@ finalize open_mint:
 function mint:
     input r0 as NFT_mint.record;
     input r1 as scalar.private;
-    hash.bhp256 self.caller into r2 as field;    commit.bhp256 r2 r1 into r3 as field;    sub r0.amount 1u8 into r4;
+    hash.bhp256 self.caller into r2 as field;
+    commit.bhp256 r2 r1 into r3 as field;
+    sub r0.amount 1u8 into r4;
     cast r0.owner r4 into r5 as NFT_mint.record;
     cast r0.owner r3 into r6 as NFT_claim.record;
+    async mint r3 into r7;
     output r5 as NFT_mint.record;
     output r6 as NFT_claim.record;
-
-    finalize r3;
+    output r7 as leo_nft.aleo/mint.future;
 
 finalize mint:
     input r0 as field.public;
@@ -244,10 +250,12 @@ function claim_nft:
     input r0 as NFT_claim.record;
     input r1 as TokenId.private;
     input r2 as scalar.private;
-    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;    cast r0.owner r1 r2 into r5 as NFT.record;
+    hash.bhp256 r1 into r3 as field;
+    commit.bhp256 r3 r2 into r4 as field;
+    cast r0.owner r1 r2 into r5 as NFT.record;
+    async claim_nft r0.claim r4 into r6;
     output r5 as NFT.record;
-
-    finalize r0.claim r4;
+    output r6 as leo_nft.aleo/claim_nft.future;
 
 finalize claim_nft:
     input r0 as field.public;
@@ -260,8 +268,8 @@ finalize claim_nft:
 function authorize:
     input r0 as NFT.record;
     input r1 as u64.public;
-
-    finalize;
+    async authorize into r2;
+    output r2 as leo_nft.aleo/authorize.future;
 
 finalize authorize:
     assert.eq 0u8 1u8;
@@ -278,8 +286,10 @@ function transfer_public:
     input r0 as address.private;
     input r1 as TokenId.private;
     input r2 as scalar.private;
-    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;
-    finalize r0 r4 self.caller;
+    hash.bhp256 r1 into r3 as field;
+    commit.bhp256 r3 r2 into r4 as field;
+    async transfer_public r0 r4 self.caller into r5;
+    output r5 as leo_nft.aleo/transfer_public.future;
 
 finalize transfer_public:
     input r0 as address.public;
@@ -292,8 +302,10 @@ finalize transfer_public:
 
 function convert_private_to_public:
     input r0 as NFT.record;
-    hash.bhp256 r0.data into r1 as field;    commit.bhp256 r1 r0.edition into r2 as field;
-    finalize r0.owner r2;
+    hash.bhp256 r0.data into r1 as field;
+    commit.bhp256 r1 r0.edition into r2 as field;
+    async convert_private_to_public r0.owner r2 into r3;
+    output r3 as leo_nft.aleo/convert_private_to_public.future;
 
 finalize convert_private_to_public:
     input r0 as address.public;
@@ -306,10 +318,12 @@ function convert_public_to_private:
     input r1 as TokenId.private;
     input r2 as scalar.private;
     assert.eq r0 self.caller;
-    hash.bhp256 r1 into r3 as field;    commit.bhp256 r3 r2 into r4 as field;    cast r0 r1 r2 into r5 as NFT.record;
+    hash.bhp256 r1 into r3 as field;
+    commit.bhp256 r3 r2 into r4 as field;
+    cast r0 r1 r2 into r5 as NFT.record;
+    async convert_public_to_private r0 r4 into r6;
     output r5 as NFT.record;
-
-    finalize r0 r4;
+    output r6 as leo_nft.aleo/convert_public_to_private.future;
 
 finalize convert_public_to_private:
     input r0 as address.public;

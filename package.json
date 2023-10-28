@@ -19,11 +19,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@demox-labs/aleo-sdk": "^0.3.23",
-    "@demox-labs/aleo-wallet-adapter-base": "^0.0.17",
-    "@demox-labs/aleo-wallet-adapter-leo": "^0.0.16",
-    "@demox-labs/aleo-wallet-adapter-react": "^0.0.16",
-    "@demox-labs/aleo-wallet-adapter-reactui": "^0.0.28",
+    "@demox-labs/aleo-sdk-web": "^0.3.23",
+    "@demox-labs/aleo-wallet-adapter-base": "^0.0.20",
+    "@demox-labs/aleo-wallet-adapter-leo": "^0.0.19",
+    "@demox-labs/aleo-wallet-adapter-react": "^0.0.19",
+    "@demox-labs/aleo-wallet-adapter-reactui": "^0.0.31",
     "@headlessui/react": "1.6.5",
     "@hookform/resolvers": "2.9.1",
     "@tailwindcss/forms": "0.5.2",
