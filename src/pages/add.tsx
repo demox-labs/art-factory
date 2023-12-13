@@ -26,6 +26,7 @@ const Add: NextPageWithLayout = () => {
   let [url, setUrl] = useState('');
   let [editions, setEditions] = useState(0);
   let [fee, setFee] = useState<string>('6.5');
+  let [feePublic, setFeePublic] = useState<boolean>(false);
   let [transactionId, setTransactionId] = useState<string | undefined>();
   let [status, setStatus] = useState<string | undefined>();
 
@@ -60,6 +61,7 @@ const Add: NextPageWithLayout = () => {
       'add_nft',
       inputs,
       Math.floor(parseFloat(fee) * 1_000_000),
+      !feePublic
     );
 
     const txId =
@@ -120,6 +122,17 @@ const Add: NextPageWithLayout = () => {
                     if (/^\d*(\.\d*)?$/.test(event.currentTarget.value)) { setFee(event.currentTarget.value) }
                   }}
                   value={fee}
+                />
+              </label>
+              <label className="flex w-full items-center justify-between py-4">
+                Pay Fee Publicly:
+                <input
+                  type="checkbox"
+                  className="h-5 w-5 text-gray-600 focus:ring-gray-500 border-gray-300 rounded"
+                  checked={feePublic}
+                  onChange={() => {
+                    setFeePublic(!feePublic);
+                  }}
                 />
               </label>
               <div className="flex items-center justify-center">
