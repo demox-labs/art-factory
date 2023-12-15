@@ -1,10 +1,10 @@
 import { JSONRPCClient } from 'json-rpc-2.0';
 import { NFTProgramId } from './nft-program';
-import { bigIntToString, joinBigIntsToString, parseStringToBigIntArray } from '@/lib/util';
+import { bigIntToString, getPublicKeyFromFuture, joinBigIntsToString, parseStringToBigIntArray } from '@/lib/util';
 import assert from 'assert';
 
 export const TESTNET3_API_URL = process.env.RPC_URL!;
-const ALEO_URL = 'https://vm.aleo.org/api/testnet3/';
+const ALEO_URL = 'https://api.explorer.aleo.org/v1/testnet3/';
 
 export async function getHeight(apiUrl: string): Promise<number> {
   const client = getClient(apiUrl);
@@ -179,7 +179,7 @@ export async function getNFTs(apiUrl: string, fetchProperties: boolean = true): 
   let nfts: any[] = addNFTTransactionMetadata.map((txM: any) => {
     const tx = txM.transaction;
     const urlBigInts = parseStringToBigIntArray(tx.execution.transitions[0].inputs[0].value);
-    const tokenEditionHash = tx.execution.transitions[0].finalize[0];
+    const tokenEditionHash = getPublicKeyFromFuture(tx.execution.transitions[0].outputs[0].value);
     const relativeUrl = joinBigIntsToString(urlBigInts);
     return {
       url: baseUri + relativeUrl,

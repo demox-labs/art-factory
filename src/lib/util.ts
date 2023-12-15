@@ -101,6 +101,17 @@ export function parseStringToBigIntArray(input: string): bigint[] {
   return bigInts;
 }
 
+export function getPublicKeyFromFuture(input: string): string {
+  const keyRegex = /([0-9]+)field/g;
+  const matches = input.match(keyRegex);
+
+  if (!matches) {
+    return '';
+  }
+
+  return matches[0];
+}
+
 export function getRandomElement<T>(list: T[]): T {
   const randomIndex = Math.floor(Math.random() * list.length);
   return list[randomIndex];
