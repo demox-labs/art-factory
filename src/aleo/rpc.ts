@@ -65,15 +65,10 @@ export async function getAleoTransactionsForProgram(programId: string, functionN
 }
 
 
-export async function getTransaction(apiUrl: string, transactionId: string): Promise<any> {
-  const transactionUrl = `${apiUrl}/aleo/transaction`;
-  const response = await fetch(`${transactionUrl}/${transactionId}`);
-  if (!response.ok) {
-    throw new Error('Transaction not found');
-  }
-  const transaction = await response.json();
-  return transaction;
-}
+export const getAleoTransaction = async (id: string): Promise<any> => {
+  const client = getClient(TESTNET3_API_URL);
+  return await client.request('aleoTransaction', { id });
+};
 
 // Handle the case where a whitelist operation is done twice for the same address
 export async function getWhitelist(apiUrl: string): Promise<any> {
@@ -134,13 +129,13 @@ export async function getBaseURI(apiUrl: string): Promise<any> {
   }
   
   const updateTxsMetadata = await getAleoTransactionsForProgram(NFTProgramId, 'update_base_uri', apiUrl);
-  const transactionIds = updateTxsMetadata.map((txM: any) => txM.transction.id);
+  const transactionIds = updateTxsMetadata.map((txM: any) => txM.transaction.id);
   if (transactionIds.length === 0) {
     return baseUri;
   }
 
-  const transaction = await getTransaction(apiUrl, transactionIds[transactionIds.length - 1]);
-  const urlBigInts = parseStringToBigIntArray(transaction.execution.transitions[0].inputs[0].value);
+  const transaction = await getAleoTransaction(transactionIds[transactionIds.length - 1]);
+  const urlBigInts = parseStringToBigIntArray(transaction.transaction.execution.transitions[0].inputs[0].value);
   return joinBigIntsToString(urlBigInts);
 }
 
@@ -151,8 +146,8 @@ export async function getSettingsStatus(apiUrl: string): Promise<number> {
     return 5;
   }
 
-  const transaction = await getTransaction(apiUrl, transactionIds[transactionIds.length - 1]);
-  const status: string = transaction.execution.transitions[0].inputs[0].value;
+  const transaction = await getAleoTransaction(transactionIds[transactionIds.length - 1]);
+  const status: string = transaction.transaction.execution.transitions[0].inputs[0].value;
   return parseInt(status.slice(0, status.indexOf('u32')));
 };
 

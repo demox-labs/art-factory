@@ -27,6 +27,7 @@ export function safeParseInt(value: string): number {
 export function stringToBigInt(input: string): bigint {
   const encoder = new TextEncoder();
   const encodedBytes = encoder.encode(input);
+  encodedBytes.reverse();
 
   let bigIntValue = BigInt(0);
   for (let i = 0; i < encodedBytes.length; i++) {
@@ -47,6 +48,8 @@ export function bigIntToString(bigIntValue: bigint): string {
     bytes.push(byteValue);
     tempBigInt = tempBigInt >> BigInt(8);
   }
+
+  bytes.reverse();
 
   const decoder = new TextDecoder();
   const asciiString = decoder.decode(Uint8Array.from(bytes));
