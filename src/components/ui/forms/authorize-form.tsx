@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react';
-import * as Aleo from '@demox-labs/aleo-sdk-web';
+// import * as Aleo from '@demox-labs/aleo-sdk-web';
 import { useWallet } from '@demox-labs/aleo-wallet-adapter-react';
 import { LeoWalletAdapter } from '@demox-labs/aleo-wallet-adapter-leo';
 import Button from '@/components/ui/button';
@@ -77,14 +77,14 @@ const AuthorizeForm = () => {
   };
 
   const verifyExecution = async () => {
-    const aleoVerifyingKey = Aleo.VerifyingKey.fromString(verifyingKey!);
-    try {
-      await Aleo.ProgramManager.verify_execution(execution.execution, NFTProgram, AUTHORIZE_FUNCTION, undefined, aleoVerifyingKey);
-      alert('Authorization successful!');
-    } catch (e) {
+    // const aleoVerifyingKey = Aleo.VerifyingKey.fromString(verifyingKey!);
+    // try {
+    //   await Aleo.ProgramManager.verify_execution(execution.execution, NFTProgram, AUTHORIZE_FUNCTION, undefined, aleoVerifyingKey);
+    //   alert('Authorization successful!');
+    // } catch (e) {
       alert('Authorization failed :(');
-      console.error(e);
-    }
+    //   console.error(e);
+    // }
   }
 
   const getTransactionStatus = async (txId: string) => {

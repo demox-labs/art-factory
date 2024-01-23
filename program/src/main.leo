@@ -1,6 +1,5 @@
 // The 'leo_nft' program.
 program leo_nft.aleo {
-    // dummy address, ie the aleo address equivalent of 0: aleo1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3ljyzc
     struct TokenId {
         data1: u128, // Part 1 of the image data -- i.e., a way to link this nft to image or aws
         data2: u128,

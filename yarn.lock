@@ -931,10 +931,10 @@
   resolved "https://registry.yarnpkg.com/@corex/deepmerge/-/deepmerge-4.0.37.tgz#873dcf71aee46596d7e385437b0d94770ef4c85f"
   integrity sha512-PX90bEnrLdxd5e6rSFWsghExMuSw0Uov3fWJuuaoFuUQIS/446diu/4seExK5b+43L+SOBbd2uBGwYUkG1JfCw==
 
-"@demox-labs/aleo-sdk-web@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-sdk-web/-/aleo-sdk-web-0.3.23.tgz#4760ffed2b0a9631bf2384eb5bf2d09d74640c8d"
-  integrity sha512-Aa94dTGUNDkkqpcRIqHKwPbSTwxd+M2XJ7wAJPslGZ1mPhSdVDUiRazZV+KXGOpjurdW2cckqtoJsIChfk81jQ==
+"@demox-labs/aleo-sdk-web@^0.3.28":
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/@demox-labs/aleo-sdk-web/-/aleo-sdk-web-0.3.28.tgz#0dc55dadfeae93ac292a0afdba1085c29ac32e8a"
+  integrity sha512-bMf+e5CL7j6WyGlTReeXQLkgarZbhUyo82GIel8g4DKrxWDn7xSlqf9EGsuLj/Qihlp9OL7+M3C/1QhYe5ioFw==
 
 "@demox-labs/aleo-wallet-adapter-base@^0.0.20":
   version "0.0.20"
