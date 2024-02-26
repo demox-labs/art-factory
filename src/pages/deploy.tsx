@@ -57,6 +57,7 @@ const Deploy: NextPageWithLayout = () => {
       WalletAdapterNetwork.Testnet,
       program,
       Math.floor(parseFloat(fee) * 1_000_000),
+      false,
     );
 
     const txId =
